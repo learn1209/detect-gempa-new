@@ -1,5 +1,7 @@
-from bs4 import BeautifulSoup
+import bs4 
 import requests
+
+description = "To get the latest earthquake in Indonesia from BMKG.go.id"
 
 def ekstraksi_data():
     url = "https://bmkg.go.id/"
@@ -11,7 +13,7 @@ def ekstraksi_data():
     except Exception:
         return None
     if content.status_code == 200:
-        soup = BeautifulSoup(content.text, 'html.parser')
+        soup = bs4.BeautifulSoup(content.text, 'html.parser')
         result = soup.find('span', {'class': 'waktu'})
         result = result.text.split(', ')
 
@@ -77,5 +79,9 @@ def tampilkan_data(result):
     print(f"Koordinat : {result['ls']} , {result['bt']}")
     print('Pusat : ', result['lokasi'])
     print('Dirasakan : ', result['dirasakan'])
+
+    
 if __name__ == '__MAIN__':
-    print("haiii")
+    print("Deskripsi Package", description)
+    result = ekstraksi_data()
+    tampilkan_data(result)
